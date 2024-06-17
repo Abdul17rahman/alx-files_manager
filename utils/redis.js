@@ -1,18 +1,18 @@
 const { createClient } = require('redis');
 
 class RedisClient {
-  constructor () {
+  constructor() {
     this._client = createClient();
-    this._client.on('error', err => {
+    this._client.on('error', (err) => {
       console.log(err);
     });
   }
 
-  isAlive () {
+  isAlive() {
     return this._client.connected;
   }
 
-  async get (key) {
+  async get(key) {
     return new Promise((resolve, reject) => {
       this._client.get(key, (err, data) => {
         if (err) reject(err);
@@ -21,7 +21,7 @@ class RedisClient {
     });
   }
 
-  async set (key, val, dur) {
+  async set(key, val, dur) {
     return new Promise((resolve, reject) => {
       this._client.setex(key, dur, val, (err, reply) => {
         if (err) reject(err);
@@ -30,7 +30,7 @@ class RedisClient {
     });
   }
 
-  async del (key) {
+  async del(key) {
     return new Promise((resolve, reject) => {
       this._client.del(key, (err) => {
         if (err) reject(err);
