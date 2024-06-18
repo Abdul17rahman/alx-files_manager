@@ -5,7 +5,7 @@ const AppRouter = require('./routes/index');
 
 const port = process.env.PORT || 5000;
 
-app.use(express.json())
+app.use(express.json());
 
 app.use('/', AppRouter);
 
