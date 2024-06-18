@@ -3,7 +3,7 @@ const dbClient = require('../utils/db');
 
 function getStatus(req, res) {
   if (redisClient.isAlive() && dbClient.isAlive()) {
-    return res.status(200).json({
+    res.status(200).send({
       redis: true,
       db: true,
     });
@@ -13,7 +13,7 @@ function getStatus(req, res) {
 async function getStats(req, res) {
   const users = await dbClient.nbFiles();
   const files = await dbClient.nbUsers();
-  return res.status(200).json({
+  return res.status(200).send({
     users,
     files,
   });
