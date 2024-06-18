@@ -10,31 +10,21 @@ class DBClient {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    this._dbClient
-      .connect()
-      .then(() => {
-        this.db = this._dbClient.db(this.database);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    this._dbClient.connect()
   }
 
   isAlive() {
-    if (this.db) {
-      return true;
-    }
-    return false;
+    return this._dbClient.isConnected()
   }
 
   async nbUsers() {
     // returns number of documents in user collection.
-    return this.db.collection('users').countDocuments();
+    return this._dbClient.db().collection('users').countDocuments();
   }
 
   async nbFiles() {
     // returns the number of documents in file collection
-    return this.db.collection('files').countDocuments();
+    return this._dbClient.db().collection('files').countDocuments();
   }
 }
 
