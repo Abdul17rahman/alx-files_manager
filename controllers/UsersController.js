@@ -1,7 +1,7 @@
-const sha = require('sha1');
-const { ObjectId } = require('mongodb');
-const dbClient = require('../utils/db');
-const redisClient = require('../utils/redis');
+import sha from 'sha1';
+import { ObjectId } from 'mongodb';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
 
 class UsersController {
   static async postNew(req, res) {
@@ -34,22 +34,22 @@ class UsersController {
     });
   }
 
-  // static async getMe(req, res) {
-  //   const authHeader = req.headers['x-token'];
-  //   const userId = await redisClient.get(`auth_${authHeader}`);
-  //   if (!userId) {
-  //     return res.status(401).send({
-  //       error: 'Unauthorized',
-  //     });
-  //   }
-  //   const collection = dbClient.client.db().collection('users');
-  //   const oId = new ObjectId(userId);
-  //   const foundUser = await collection.findOne({ _id: oId });
-  //   return res.status(200).send({
-  //     id: foundUser._id,
-  //     email: foundUser.email,
-  //   });
-  // }
+  static async getMe(req, res) {
+    const authHeader = req.headers['x-token'];
+    const userId = await redisClient.get(`auth_${authHeader}`);
+    if (!userId) {
+      return res.status(401).send({
+        error: 'Unauthorized',
+      });
+    }
+    const collection = dbClient.client.db().collection('users');
+    const oId = new ObjectId(userId);
+    const foundUser = await collection.findOne({ _id: oId });
+    return res.status(200).send({
+      id: foundUser._id,
+      email: foundUser.email,
+    });
+  }
 }
 
-module.exports = UsersController;
+export default UsersController;

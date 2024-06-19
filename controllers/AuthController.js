@@ -1,8 +1,8 @@
-const sha = require('sha1');
-const uuid = require('uuid');
-const base64url = require('base64url');
-const dbClient = require('../utils/db');
-const redisClient = require('../utils/redis');
+import sha from 'sha1';
+import uuid from 'uuid';
+import base64url from 'base64url';
+import dbClient from '../utils/db';
+import redisClient from '../utils/redis';
 
 class AuthController {
   static async getConnect(req, res) {
@@ -38,4 +38,4 @@ class AuthController {
   }
 }
 
-module.exports = AuthController;
+export default AuthController;
