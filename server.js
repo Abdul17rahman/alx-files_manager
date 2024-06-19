@@ -1,11 +1,11 @@
-import express from 'express';
+import Express from 'express';
 import AppRouter from './routes';
 
-const app = express();
+const app = new Express();
 
 const port = process.env.PORT || 5000;
 
-app.use(express.json());
+app.use(Express.json());
 
 app.use('/', AppRouter);
 
