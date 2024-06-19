@@ -34,22 +34,22 @@ class UsersController {
     });
   }
 
-  static async getMe(req, res) {
-    const authHeader = req.headers['x-token'];
-    const userId = await redisClient.get(`auth_${authHeader}`);
-    if (!userId) {
-      return res.status(401).send({
-        error: 'Unauthorized',
-      });
-    }
-    const collection = dbClient.client.db().collection('users');
-    const oId = new ObjectId(userId);
-    const foundUser = await collection.findOne({ _id: oId });
-    return res.status(200).send({
-      id: foundUser._id,
-      email: foundUser.email,
-    });
-  }
+  // static async getMe(req, res) {
+  //   const authHeader = req.headers['x-token'];
+  //   const userId = await redisClient.get(`auth_${authHeader}`);
+  //   if (!userId) {
+  //     return res.status(401).send({
+  //       error: 'Unauthorized',
+  //     });
+  //   }
+  //   const collection = dbClient.client.db().collection('users');
+  //   const oId = new ObjectId(userId);
+  //   const foundUser = await collection.findOne({ _id: oId });
+  //   return res.status(200).send({
+  //     id: foundUser._id,
+  //     email: foundUser.email,
+  //   });
+  // }
 }
 
 module.exports = UsersController;
