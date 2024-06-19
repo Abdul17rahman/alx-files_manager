@@ -18,4 +18,4 @@ AppRouter.get('/disconnect', AuthController.getDisconnect);
 
 AppRouter.get('/users/me', UsersController.getMe);
 
-module.exports = AppRouter;
+export default AppRouter;
