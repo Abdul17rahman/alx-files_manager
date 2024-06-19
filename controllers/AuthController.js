@@ -9,19 +9,20 @@ class AuthController {
     const collection = dbClient.client.db().collection('users');
     const authHeaders = req.headers.authorization;
     const [email, password] = base64url.decode(authHeaders.split(' ')[1]).split(':');
-    const foundUser = await collection.findOne({ email });
+    const hashed = sha(password);
+    const foundUser = await collection.findOne({
+      email,
+      password: hashed,
+    });
     if (!foundUser) {
       return res.status(401).send({
         error: 'Unauthorized',
       });
     }
-    const hashed = sha(password);
-    if (foundUser.password === hashed) {
-      const { _id } = foundUser;
-      const token = uuid.v4();
-      redisClient.set(`auth_${token}`, _id.toString(), 86400);
-      return res.status(200).send({ token });
-    }
+    const { _id } = foundUser;
+    const token = uuid.v4();
+    redisClient.set(`auth_${token}`, _id.toString(), 86400);
+    return res.status(200).send({ token });
   }
 
   static async getDisconnect(req, res) {
